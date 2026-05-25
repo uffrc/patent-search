@@ -1,0 +1,12 @@
+name: patent-search
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - tqdm
+  - pip:
+      - faiss-cpu
+      - sentence-transformers

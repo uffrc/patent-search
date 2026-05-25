@@ -1,0 +1,49 @@
+embedding_01.npy has 80000 vectors
+embedding_02.npy has 80000 vectors
+embedding_03.npy has 80000 vectors
+embedding_04.npy has 80000 vectors
+embedding_05.npy has 80000 vectors
+embedding_06.npy has 80000 vectors
+embedding_07.npy has 80000 vectors
+embedding_08.npy has 80000 vectors
+embedding_09.npy has 79999 vectors
+embedding_10.npy has 80000 vectors
+embedding_11.npy has 85000 vectors
+embedding_12.npy has 85000 vectors
+embedding_13.npy has 85000 vectors
+embedding_14.npy has 85000 vectors
+embedding_15.npy has 84762 vectors
+embedding_16.npy has 84797 vectors
+embedding_17.npy has 84789 vectors
+embedding_18.npy has 84836 vectors
+embedding_19.npy has 99791 vectors
+embedding_20.npy has 119926 vectors
+embedding_21.npy has 129999 vectors
+embedding_22.npy has 130000 vectors
+embedding_23.npy has 130000 vectors
+embedding_24.npy has 103926 vectors
+
+de_patente_1.csv has 80000 patents with a title
+de_patente_2.csv has 80000 patents with a title
+de_patente_3.csv has 80000 patents with a title
+de_patente_4.csv has 80000 patents with a title
+de_patente_5.csv has 80000 patents with a title
+de_patente_6.csv has 80000 patents with a title
+de_patente_7.csv has 80000 patents with a title
+de_patente_8.csv has 80000 patents with a title
+de_patente_9.csv has 79999 patents with a title
+de_patente_10.csv has 80000 patents with a title
+de_patente_11.csv has 85000 patents with a title
+de_patente_12.csv has 85000 patents with a title
+de_patente_13.csv has 85000 patents with a title
+de_patente_14.csv has 85000 patents with a title
+de_patente_15.csv has 84762 patents with a title
+de_patente_16.csv has 84797 patents with a title
+de_patente_17.csv has 84789 patents with a title
+de_patente_18.csv has 84836 patents with a title
+de_patente_19.csv has 99791 patents with a title
+de_patente_20.csv has 119926 patents with a title
+de_patente_21.csv has 129999 patents with a title
+de_patente_22.csv has 130000 patents with a title
+de_patente_23.csv has 130000 patents with a title
+de_patente_24.csv has 103926 patents with a title

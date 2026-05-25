@@ -1,0 +1,22 @@
+# Large patent data and generated search assets
+*.csv
+*.npy
+*.index
+/Embeddings/
+/bulk_downloads/
+/bulk_downloads_stripped/
+
+# Python caches and local runtime output
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Python and Conda environments
+.venv/
+venv/
+env/
+.conda/
+
+# Local editor and operating system files
+.vscode/
+.DS_Store

@@ -1,0 +1,21 @@
+Patent Search - short manual
+
+0. patent DB must be stored in the project-folder
+
+System Requirements:
+- Because the FAISS index and transformer model are loaded into RAM, use a machine with at least 8 GB free RAM; 
+  16 GB or more is recommended.
+
+1. Open Terminal and go to the project folder:
+   cd .../patent-search
+
+2. Start the search:
+   python search.py
+
+3. Type a patent idea and press Enter. Empty Enter, q, quit, or exit stops the program.
+
+Number of results:
+The number of shown matches is set in search.py:
+   DEFAULT_TOP_K = 10
+
+Change that value in the code if you want more or fewer results. It is intentionally not a Terminal parameter.
