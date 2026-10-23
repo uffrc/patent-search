@@ -2,21 +2,43 @@
 *.csv
 *.npy
 *.index
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+*.feather
 /Embeddings/
 /bulk_downloads/
 /bulk_downloads_stripped/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
+*.p12
 
 # Python caches and local runtime output
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
 
 # Local Python and Conda environments
 .venv/
 venv/
 env/
 .conda/
+.cache/
 
 # Local editor and operating system files
 .vscode/
+.idea/
 .DS_Store

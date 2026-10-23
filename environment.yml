@@ -10,3 +10,4 @@ dependencies:
   - pip:
       - faiss-cpu
       - sentence-transformers
+      - streamlit

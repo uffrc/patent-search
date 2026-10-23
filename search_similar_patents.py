@@ -5,9 +5,8 @@ from sentence_transformers import SentenceTransformer
 
 # Input text.
 query_text = (
-    "A drone that automatically follows a vehicle using AI-based image "
-    "recognition for security applications. The drone has a camera module "
-    "and uses image recognition to detect and track the vehicle."
+    "A bicycle light powered by a wheel-mounted dynamo that illuminates "
+    "automatically while the bicycle is moving."
 )
 
 # Load the embedding model.

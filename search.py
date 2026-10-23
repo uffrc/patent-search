@@ -7,6 +7,7 @@ import sys
 import textwrap
 from collections import defaultdict
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 
@@ -29,6 +30,13 @@ class PatentSource:
     @property
     def end_index(self):
         return self.start_index + self.row_count
+
+
+@dataclass(frozen=True)
+class PatentResult:
+    global_index: int
+    score: float
+    patent: dict
 
 
 def load_required_modules():
@@ -166,6 +174,84 @@ def shorten(text, width=380):
     return textwrap.shorten(text, width=width, placeholder="...")
 
 
+def publication_date_key(value):
+    digits = "".join(character for character in str(value or "") if character.isdigit())
+    if len(digits) < 8:
+        return None
+    return int(digits[:8])
+
+
+def bound_to_date_key(value):
+    if value is None:
+        return None
+    if isinstance(value, date):
+        return int(value.strftime("%Y%m%d"))
+    return publication_date_key(value)
+
+
+def patent_matches_date(patent, lower_bound=None, upper_bound=None):
+    lower_key = bound_to_date_key(lower_bound)
+    upper_key = bound_to_date_key(upper_bound)
+
+    if lower_key is None and upper_key is None:
+        return True
+
+    patent_key = publication_date_key(patent.get("publication_date"))
+    if patent_key is None:
+        return False
+    if lower_key is not None and patent_key < lower_key:
+        return False
+    if upper_key is not None and patent_key > upper_key:
+        return False
+    return True
+
+
+def search_patents(
+    query,
+    index,
+    model,
+    sources,
+    top_k=DEFAULT_TOP_K,
+    lower_bound=None,
+    upper_bound=None,
+    candidate_limit=None,
+):
+    query_vector = model.encode(
+        [query],
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    ).astype("float32")
+
+    if query_vector.shape[1] != index.d:
+        raise ValueError(
+            f"Model produced {query_vector.shape[1]} dimensions, "
+            f"but the FAISS index expects {index.d}."
+        )
+
+    search_limit = min(candidate_limit or top_k, index.ntotal)
+    scores, indices = index.search(query_vector, search_limit)
+    result_indices = [int(index_number) for index_number in indices[0]]
+    patents = read_patents(sources, result_indices)
+
+    results = []
+    for global_index, score in zip(result_indices, scores[0]):
+        patent = patents.get(int(global_index), {})
+        if not patent_matches_date(patent, lower_bound, upper_bound):
+            continue
+
+        results.append(
+            PatentResult(
+                global_index=int(global_index),
+                score=float(score),
+                patent=patent,
+            )
+        )
+        if len(results) == top_k:
+            break
+
+    return results
+
+
 def print_results(indices, scores, patents):
     print("\nTop matches:\n")
 
@@ -245,23 +331,12 @@ def main():
         if not query or query.lower() in {"q", "quit", "exit"}:
             break
 
-        query_vector = model.encode(
-            [query],
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-        ).astype("float32")
-
-        if query_vector.shape[1] != index.d:
-            raise SystemExit(
-                f"Model produced {query_vector.shape[1]} dimensions, "
-                f"but the FAISS index expects {index.d}."
-            )
-
         top_k = min(DEFAULT_TOP_K, index.ntotal)
-        scores, indices = index.search(query_vector, top_k)
-        result_indices = [int(index_number) for index_number in indices[0]]
-        patents = read_patents(sources, result_indices)
-        print_results(result_indices, scores[0], patents)
+        results = search_patents(query, index, model, sources, top_k=top_k)
+        result_indices = [result.global_index for result in results]
+        scores = [result.score for result in results]
+        patents = {result.global_index: result.patent for result in results}
+        print_results(result_indices, scores, patents)
 
     print("Goodbye.")
 

@@ -1,17 +1,22 @@
-import os
-import pandas as pd
+from pathlib import Path
+
 import numpy as np
-from tqdm import tqdm
+import pandas as pd
 from sentence_transformers import SentenceTransformer
+from tqdm import tqdm
 
 # Configuration.
-FOLDER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bulk_downloads")
+BASE_DIR = Path(__file__).resolve().parent
+SOURCE_DIR = BASE_DIR / "bulk_downloads"
+OUTPUT_DIR = BASE_DIR / "Embeddings"
 FILE_PREFIX = "de_patente_"
 FILE_SUFFIX = ".csv"
-START_INDEX = 2
+START_INDEX = 1
 END_INDEX = 24
 BATCH_SIZE = 32
-EMBEDDING_MODEL = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # Load the model.
 print("Loading embedding model...")
@@ -20,11 +25,11 @@ model = SentenceTransformer(EMBEDDING_MODEL)
 # Process all configured files.
 for i in range(START_INDEX, END_INDEX + 1):
     filename = f"{FILE_PREFIX}{i}{FILE_SUFFIX}"
-    file_path = os.path.join(FOLDER_PATH, filename)
-    output_file = f"embedding_{i:02d}.npy"
+    file_path = SOURCE_DIR / filename
+    output_file = OUTPUT_DIR / f"embedding_{i:02d}.npy"
 
-    if os.path.exists(output_file):
-        print(f"Skipping {output_file} because it already exists")
+    if output_file.exists():
+        print(f"Skipping {output_file.name} because it already exists")
         continue
 
     print(f"\nProcessing: {filename}")
@@ -62,4 +67,4 @@ for i in range(START_INDEX, END_INDEX + 1):
 
     # Save embeddings.
     np.save(output_file, embeddings)
-    print(f"Embeddings saved as '{output_file}' with shape {embeddings.shape}")
+    print(f"Embeddings saved as '{output_file.name}' with shape {embeddings.shape}")

@@ -23,7 +23,7 @@ print("Loading SentenceTransformer model...")
 model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 # Example patent text.
-example_text = "illuminated watch display with LEDs and a battery for lighting a wristwatch"
+example_text = "a bicycle light powered by a wheel-mounted dynamo"
 print(f"\nSearch text: '{example_text}'")
 
 # Convert text to a normalized vector.
